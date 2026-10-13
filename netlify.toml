@@ -2,6 +2,12 @@
   publish = "pages"
   functions = "netlify/functions"
 
+  [[redirects]]
+  from = "/"
+  to = "/atelier-cuisines-paris/"
+  status = 302
+  force = true
+
 [functions]
   node_bundler = "esbuild"
 
