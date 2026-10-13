@@ -414,7 +414,9 @@ fbq('track', 'PageView');
       </ul>
     </div>
 
-    <form class="booking" id="bookingForm">
+    <form class="booking" id="bookingForm" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="booking">
+      <p style="display:none"><label>Ne pas remplir : <input name="bot-field"></label></p>
       <div class="form-fields">
         <div class="row2">
           <div class="field">
@@ -559,9 +561,19 @@ fbq('track', 'PageView');
     form.addEventListener('submit', function(e){
       e.preventDefault();
       trackLead(form);
-      // NB : la prise de rendez-vous réelle (envoi du lead à la messagerie /
-      // au CRM de l'atelier) se brancherait ici, en plus du tracking —
-      // hors scope de cette page de démonstration.
+
+      // ---------- Envoi réel de la demande (Netlify Forms) ----------
+      // Capte la demande dans le dashboard Netlify (Forms) et déclenche
+      // une notification email si elle est configurée — aucun backend
+      // à gérer soi-même.
+      var data = new URLSearchParams(new FormData(form)).toString();
+      fetch('/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: data
+      }).catch(function(){ /* best-effort : n'empêche jamais la confirmation visuelle */ });
+      // ---------- Fin envoi réel ----------
+
       form.classList.add('hide-fields');
       success.classList.add('show');
       success.setAttribute('tabindex','-1');
