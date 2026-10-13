@@ -5,7 +5,7 @@
   [[redirects]]
   from = "/"
   to = "/atelier-cuisines-paris/"
-  status = 302
+  status = 200
   force = true
 
 [functions]
